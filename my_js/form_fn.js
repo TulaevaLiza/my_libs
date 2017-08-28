@@ -4,6 +4,8 @@ function MyForm(form_id) {
 	this.phone=$("#"+form_id+" .phone");
 	this.address=$("#"+form_id+" .address");
 	this.comment=$("#"+form_id+" .message");
+	this.type=$("#"+form_id+" input[type='type']");
+	this.result=$("#"+form_id+" .result");
 }
 
 MyForm.prototype.clearErrorClass = function() {
@@ -37,8 +39,8 @@ MyForm.prototype.setErrorStatus = function(obj) {
 	for(let i in obj.errorFields) {
 		this[obj.errorFields[i]].addClass("error");
 //		if(obj.errorFields[i] in errorStatus)
-		console.log(obj.errorFields[i],errorStatus[obj.errorFields[i]]);
-			this[obj.errorFields[i]].after("<div class='error-status bg-warning'>"+errorStatus[obj.errorFields[i]]+"</div>");
+//		console.log(obj.errorFields[i],errorStatus[obj.errorFields[i]]);
+		this[obj.errorFields[i]].after("<div class='error-status bg-warning'>"+errorStatus[obj.errorFields[i]]+"</div>");
 	}
 
 }
@@ -47,7 +49,7 @@ MyForm.prototype.setErrorStatus = function(obj) {
 MyForm.prototype.validate = function () {
 
 	let emailtmpl = /[a-zA-Z0-9_\-\.]+@[a-z0-9]+\.(ru|ua|by|kz|com|[a-z]{2,3}|рф)/;
-	let phonetmpl = /^\+7\s*\(\d{3}\)\s*\d{3}[\-\s]\d\d[\-\s]\d\d$/;
+	let phonetmpl = /^\+7\s*\(?\d{3}\)?\s*\d{3}[\-\s]?\d\d[\-\s]?\d\d$/;
 	let urltmpl = /(http[s]?:\/\/)?(www\.)?[a-z0-9а-я_\-]+\.(ru|ua|by|kz|com|[a-z]{2,3}|рф)/;
 	
 	let obj = {'isValid': true, 'errorFields':[]};
@@ -63,7 +65,7 @@ MyForm.prototype.validate = function () {
 		obj.errorFields.push('phone');
 	}
 
-	if(urltmpl.test(this.address.val().trim())) {
+	if(this.address.val() && urltmpl.test(this.address.val().trim())) {
 		obj.isValid=false;	
 		obj.errorFields.push('address');
 	}
@@ -81,9 +83,23 @@ MyForm.prototype.setData = function(f) {
 	this.address.val(f.address);
 	this.comment.val(f.comment);
 }
+MyForm.prototype.serialize = function() {
+	return 'name='+this.name.val()+'&phone='+this.phone.val()+'&address='+this.address.val()+'&comment='+this.comment.val()+'';
+}
+MyForm.prototype.sendStat = function() {
+	ga('send', 'event', 'Form', 'Send', 'SendForm');		
+}
+
+MyForm.prototype.printResponse= function(data) {
+	this.result.removeClass("success");	
+	this.result.removeClass("error");	
+	this.result.addClass(data.status);
+	this.result.html(data.response);	
+}
 MyForm.prototype.submit = function() {
 	let validRes=this.validate();			
-	console.log(validRes);
+//	console.log(this);
+//	console.log(validRes);
 	this.clearErrorClass();
 	this.clearErrorStatus();
 
@@ -91,24 +107,25 @@ MyForm.prototype.submit = function() {
 		this.setErrorStatus(validRes);
 	}
 	else {
-		console.log("Success "+JSON.stringify(this,["name"]));
+		console.log("Success");
 //		this.sendStat();
+		let that=this;
 		$.ajax({		
-			url: "/form_ajax.php",
-			type:"POST", //Тип запроса
-			dataType: "json", //Тип данных
-			data: "", 
+			url: "../form_ajax.php",
+			type:"POST", 
+//			dataType: "json", 
+			data: this.serialize(), 
 			success: function(data) {
-				console.log("Успех!");
+				data=JSON.parse(data);
+				console.log(data);
+				console.log(that);
+				that.printResponse(data);
 			},
 			error:  function(xhr, str){
-				console.log("Возникла ошибка!");
-				console.log(xhr);	
+				let obj={'status':"error",'response':"Ошибка обработки запроса."};
+				that.printResponse(obj);
 			}
 		});   
 	}
-}
-MyForm.prototype.sendStat = function() {
-	ga('send', 'event', 'Form', 'Send', 'SendForm');		
 }
 
