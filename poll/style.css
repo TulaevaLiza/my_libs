@@ -1,0 +1,18 @@
+#createPoll {width:25%;}
+#createPoll .form-header {font-weight:bold;}
+#createPoll .form-header .form-title {width:50%; float:left;}
+#createPoll .form-header .form-close {text-align:right;color:#666;}
+#createPoll .form-answers input, #createPoll .form-title-input input {width:100%; margin:5px 0; padding:2px 5px; border:1px silver solid;}
+
+#createPoll .form-answers .close {display:block; margin-top:-25px; margin-left:97%; padding: 0 2px; text-align:right; color:#fff; }
+#createPoll .form-answers span.close:hover {color:#666}
+
+#createPoll .poll  {
+border-bottom: 1px solid silver;
+margin-bottom: 10px;
+padding-bottom: 10px;
+}
+
+#createPoll .poll .poll-title {   font-size: 1.1em;
+font-weight: bold;
+padding: 5px;}
