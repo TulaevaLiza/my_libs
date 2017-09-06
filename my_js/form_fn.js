@@ -4,7 +4,7 @@ function MyForm(form_id) {
 	this.phone=$("#"+form_id+" .phone");
 	this.address=$("#"+form_id+" .address");
 	this.comment=$("#"+form_id+" .message");
-	this.type=$("#"+form_id+" input[type='type']");
+	this.type=$("#"+form_id+" input[name='type']");
 	this.result=$("#"+form_id+" .result");
 }
 
@@ -38,8 +38,6 @@ MyForm.prototype.setErrorStatus = function(obj) {
 
 	for(let i in obj.errorFields) {
 		this[obj.errorFields[i]].addClass("error");
-//		if(obj.errorFields[i] in errorStatus)
-//		console.log(obj.errorFields[i],errorStatus[obj.errorFields[i]]);
 		this[obj.errorFields[i]].after("<div class='error-status bg-warning'>"+errorStatus[obj.errorFields[i]]+"</div>");
 	}
 
@@ -82,12 +80,10 @@ MyForm.prototype.setData = function(f) {
 	this.phone.val(f.phone);
 	this.address.val(f.address);
 	this.comment.val(f.comment);
+	this.type.val(f.type);
 }
 MyForm.prototype.serialize = function() {
-	return 'name='+this.name.val()+'&phone='+this.phone.val()+'&address='+this.address.val()+'&comment='+this.comment.val()+'';
-}
-MyForm.prototype.sendStat = function() {
-	ga('send', 'event', 'Form', 'Send', 'SendForm');		
+	return 'name='+this.name.val()+'&phone='+this.phone.val()+'&address='+this.address.val()+'&comment='+this.comment.val()+'&type='+this.type.val();
 }
 
 MyForm.prototype.printResponse= function(data) {
@@ -98,8 +94,6 @@ MyForm.prototype.printResponse= function(data) {
 }
 MyForm.prototype.submit = function() {
 	let validRes=this.validate();			
-//	console.log(this);
-//	console.log(validRes);
 	this.clearErrorClass();
 	this.clearErrorStatus();
 
@@ -107,13 +101,10 @@ MyForm.prototype.submit = function() {
 		this.setErrorStatus(validRes);
 	}
 	else {
-		console.log("Success");
-//		this.sendStat();
 		let that=this;
 		$.ajax({		
 			url: "../form_ajax.php",
 			type:"POST", 
-//			dataType: "json", 
 			data: this.serialize(), 
 			success: function(data) {
 				data=JSON.parse(data);

@@ -22,7 +22,7 @@ $messages=array(
 
 
 foreach ($_POST as $k=>$v)
-	${$k}=$v;
+	${$k}=iconv("UTF-8","Windows-1251",$v);
 
 if(!$type) $type=3;
 
