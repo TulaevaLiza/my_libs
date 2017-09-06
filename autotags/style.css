@@ -1,0 +1,12 @@
+h1 {text-align:center}
+.specEditor {
+    height: 200px;
+    padding: 15px;
+    width: 400px;
+    margin:0 auto;
+}
+.specEditor textarea {width:100%;height:50%; padding:10px;}
+.specEditor .result {border: 1px solid #999;
+    border-radius: 5px; width:100%; height:50%; margin:10px 0 0 0; padding:10px;}
+.specEditor .hash-autotag {color:red}
+.specEditor .at-autotag {color: green;}
