@@ -1,0 +1,52 @@
+* {
+  font-family: Arial;
+}
+#gallery { width: 100%;}
+#gallery img { box-shadow: 0 0 2px #000; margin: 4px; border: 5px solid #fff; }
+#gallery img:hover {  box-shadow: 0 0 7px #000;}
+#darkbox { background: rgba(0,0,0,.5); }
+#darkbox, #img, #img img, #img .navigation  { position: fixed; margin: auto; top: 0; left: 0; bottom: 0; right: 0; }
+#img img  { box-shadow: 0 0 10px #000; border:  5px solid #fff; border-radius: 5px; }
+
+#img .wrap {
+    height: 0;
+    margin: 0 auto;
+    position: relative;
+    width: 0;
+}
+
+#img .navigation {
+      height: 0;
+    left: 0;
+ /*   position: absolute;*/
+    top: 0;
+    width:0 ;
+    z-index: 10;
+}
+
+#img .navigation a.next {
+      background: rgba(0, 0, 0, 0) url("http://icons.iconarchive.com/icons/icons8/ios7/96/Arrows-Forward-icon.png") no-repeat scroll right 48%;
+    float: right;
+    opacity: 0;
+    right: 0;
+    transition: opacity 0.6s ease 0s;
+    width: 64%;    
+  display:block;
+  height:100%;      
+}
+
+#img .navigation a.next:hover {opacity:1}
+
+#img .navigation a.prev {
+      background: rgba(0, 0, 0, 0) url("http://icons.iconarchive.com/icons/icons8/ios7/96/Arrows-Back-icon.png") no-repeat scroll left 48%;
+    float: left;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease 0s;
+    width: 34%;
+ display:block;
+  height:100%;
+  
+}
+
+#img .navigation a.prev:hover {opacity:1}
