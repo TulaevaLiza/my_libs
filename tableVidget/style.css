@@ -1,0 +1,9 @@
+#myTable table {border-collapse:collapse; width:50%}
+#myTable td{padding:5px 10px;}
+#myTable .tbl td {border:1px silver solid;}
+#myTable .tbl tr:hover {background-color:#ccc;}
+#myTable .tbl tr.head td {font-weight:bold; text-align:center;}
+#myTable .tbl tr.head:hover, #myTable .tbl tr.tblAdd:hover  {background-color:#fff;}
+#myTable input {width:100%;}
+#myTable .tbl tr.tblAdd td {border:0;}
+#myTable .tblAdd .submit {text-align:right;}
